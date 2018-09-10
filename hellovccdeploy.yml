@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hellovccdeploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hellovcc
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  minReadySeconds: 5 
+  template:
+    metadata:
+      labels:
+        app: hellovcc
+    spec:
+      containers:
+      - name: hellovcc
+        image: alyouncr1.azurecr.io/vcrsaksdemo
+        ports:
+        - containerPort: 80
+        imagePullPolicy: Always
+        resources:
+          requests:
+            cpu: 250m
+          limits:
+            cpu: 500m
+            memory: 500Mi
